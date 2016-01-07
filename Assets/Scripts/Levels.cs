@@ -20,7 +20,6 @@ public class Levels : MonoBehaviour {
 
     public void onClick () {
         if(!isLock) {
-            GameController.instance.choseLevel = level;
             GameController.instance.currentLevel = level;
             Application.LoadLevel ("load");
         }
@@ -28,8 +27,8 @@ public class Levels : MonoBehaviour {
 
     public void setLevel (int lv) {
         level = lv;
-        text.text = "" + level;
-        transform.name = "" + level;
+        text.text = "" + (level + 1);
+        transform.name = "Level " + (level+1);
     }
     public int getLevels () {
         return level;

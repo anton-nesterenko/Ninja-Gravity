@@ -18,7 +18,7 @@
     <receiver android:name="com.onesignal.GcmBroadcastReceiver" />
     <service android:name="com.androidnative.gcm.GcmIntentService" />
     <activity android:name="com.unity3d.player.UnityPlayerNativeActivity" android:label="@string/app_name" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" android:launchMode="singleTask" android:screenOrientation="landscape">
-      <meta-data android:name="unityplayer.ForwardNativeEventsToDalvik" android:value="true" />
+      <meta-data android:name="unityplayer.ForwardNativeEventsToDalvik" android:value="false" />
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />

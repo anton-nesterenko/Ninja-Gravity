@@ -10,7 +10,7 @@ public class PreLoading : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        level = GameController.instance.choseLevel;
+        level = GameController.instance.currentLevel;
         async = Application.LoadLevelAsync (level + "");
     }
 

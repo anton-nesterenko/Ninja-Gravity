@@ -15,6 +15,11 @@ public class PlayerControl : MonoBehaviour {
 
     const float gravityConst = -9.81f;
 
+    bool grounded = false;
+    public Transform groundCheck;
+    float groundRadius = 0.1f;
+    public LayerMask whatIsGround;
+
     // Use this for initialization
     void Start () {
         rigiboydy = GetComponent<Rigidbody2D> ();
@@ -24,7 +29,9 @@ public class PlayerControl : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
+    void FixedUpdate () {
+        grounded = Physics2D.OverlapCircle (groundCheck.position, groundRadius, whatIsGround);
+
         if(xAxis) {
             // float move = Input.GetAxis ("Horizontal");
             float move = CFInput.GetAxis ("Horizontal");
@@ -63,13 +70,15 @@ public class PlayerControl : MonoBehaviour {
         }
 
         if(CFInput.GetKeyDown (KeyCode.A)) {
-            FlipGravity ();
+            if(grounded)
+                FlipGravity ();
         }
     }
 
     void OnTriggerEnter2D (Collider2D other) {
         switch(other.tag) {
             case "Coint": {
+                    SoundController.instance.SoundPickUp ();
                     float z = other.transform.localRotation.z;
                     if(Mathf.Abs (z) == Mathf.Abs (transform.localRotation.z)) {
                         Destroy (other.gameObject);
@@ -77,35 +86,44 @@ public class PlayerControl : MonoBehaviour {
                         if(GameController.instance.currentLevel >= GameController.instance.openLockLevel) {
                             GameController.instance.openLockLevel += 1;
                         }
-                        PlayerPrefs.SetInt ("OpenLockLevel", GameController.instance.openLockLevel);
-                        PlayerPrefs.Save ();
-
-                        GameController.instance.currentLevel += 1;
 
                         uiInGameController.showPopupWin ();
                     }
+
+                    GameController.instance.write_data_to_json ();
                     break;
                 }
             case "Impediment":
                 Application.LoadLevel ("load");
                 break;
-            case "FlipXGravity"://chay doc
-                setGravity (-1, 0);
+            case "FlipXGravity":
+                SoundController.instance.SoundRotate ();
+                other.enabled = false;
+                if(xGravity == 0 && yGravity != 0) {
+                    setGravity (-1, 0);
+                } else if(xGravity != 0 && yGravity == 0) {
+                    setGravity (0, 1);
+                }
+                StartCoroutine (demo (other));
                 break;
-            case "FlipXGravity_Left"://chay doc
-                setGravity (1, 0);
-                break;
-            case "FlipYGravity_Up"://chay ngang
-                setGravity (0, -1);
-                break;
-            case "FlipYGravity_Down"://chay ngang
-                setGravity (0, 1);
+            default:
                 break;
         }
     }
 
-    void OnCollisionEnter2D (Collision2D coll) {
+    IEnumerator demo (Collider2D other) {
+        yield return new WaitForSeconds (0.5f);
+        other.enabled = true;
+    }
 
+    void OnCollisionEnter2D (Collision2D coll) {
+        switch(coll.gameObject.tag) {
+            case "Impediment":
+                Application.LoadLevel ("load");
+                break;
+            default:
+                break;
+        }
     }
 
     void FlipX () {
@@ -123,6 +141,7 @@ public class PlayerControl : MonoBehaviour {
     }
 
     void FlipGravity () {
+        SoundController.instance.SoundFlip ();
         xGravity = -xGravity;
         yGravity = -yGravity;
         onChangeGaravity ();

@@ -17,6 +17,8 @@ public class UIInGameController : MonoBehaviour {
         hideAllPopup ();
         controlFreak.SetActive (true);
         InvokeRepeating ("setTimeInGame", 0, 1);
+
+        SoundController.instance.PlaySoundInGame ();
     }
 
     bool cf = false;
@@ -25,6 +27,10 @@ public class UIInGameController : MonoBehaviour {
         if(!Pause.isShow && cf && !popupWin.isShow) {
             controlFreak.SetActive (true);
             cf = false;
+        }
+
+        if(!SoundController.instance.audio.isPlaying) {
+            SoundController.instance.PlaySoundInGame ();
         }
     }
 
@@ -51,12 +57,8 @@ public class UIInGameController : MonoBehaviour {
         Time.timeScale = 1;
         hideAllPopup ();
 
-
-        string str = "BestTime" + (GameController.instance.currentLevel - 1);
-
-        int bestTime = PlayerPrefs.GetInt (str, 9999);
+        int bestTime = GameController.instance.arrayBestTime[GameController.instance.currentLevel];
         popupWin.onShow (GameController.instance.timeSec, bestTime);
-        Debug.Log (str + " zzzzzzzzz: " + GameController.instance.timeSec + "=============: " + bestTime);
 
         CancelInvoke ("setTimeInGame");
         GameController.instance.timeSec = 0;
