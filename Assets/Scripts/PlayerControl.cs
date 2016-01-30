@@ -31,11 +31,12 @@ public class PlayerControl : MonoBehaviour {
     // Update is called once per frame
     void FixedUpdate () {
         grounded = Physics2D.OverlapCircle (groundCheck.position, groundRadius, whatIsGround);
-
+        //if(grounded) {
         if(xAxis) {
             // float move = Input.GetAxis ("Horizontal");
             float move = CFInput.GetAxis ("Horizontal");
-            anim.SetFloat ("Speed", Mathf.Abs (move));
+            if(grounded)
+                anim.SetFloat ("Speed", Mathf.Abs (move));
             rigiboydy.velocity = new Vector2 (move * maxSpeed, rigiboydy.velocity.y);
             if(facingRightUp) {
                 if((move > 0) && !facingRight) {
@@ -52,7 +53,8 @@ public class PlayerControl : MonoBehaviour {
             }
         } else {
             float move2 = CFInput.GetAxis ("Vertical");
-            anim.SetFloat ("Speed", Mathf.Abs (move2));
+            if(grounded)
+                anim.SetFloat ("Speed", Mathf.Abs (move2));
             rigiboydy.velocity = new Vector2 (rigiboydy.velocity.x, move2 * maxSpeed * 2);
             if(facingRightUp) {
                 if((move2 > 0) && facingRight) {
@@ -68,6 +70,7 @@ public class PlayerControl : MonoBehaviour {
                 }
             }
         }
+
 
         if(CFInput.GetKeyDown (KeyCode.A)) {
             if(grounded)
@@ -99,6 +102,8 @@ public class PlayerControl : MonoBehaviour {
             case "FlipXGravity":
                 SoundController.instance.SoundRotate ();
                 other.enabled = false;
+                rigiboydy.isKinematic = true;
+                rigiboydy.isKinematic = false;
                 if(xGravity == 0 && yGravity != 0) {
                     setGravity (-1, 0);
                 } else if(xGravity != 0 && yGravity == 0) {
@@ -145,6 +150,7 @@ public class PlayerControl : MonoBehaviour {
         xGravity = -xGravity;
         yGravity = -yGravity;
         onChangeGaravity ();
+        //setGravity (-xGravity, -yGravity);
     }
 
     public void onChangeGaravity () {

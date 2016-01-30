@@ -7,7 +7,7 @@ public class PopupWin : Popup {
     public Text TextNew;
     // Use this for initialization
     void Start () {
-        UM_AdManager.StartInterstitialAd ();
+       // UM_AdManager.StartInterstitialAd ();
     }
 
     // Update is called once per frame
@@ -26,7 +26,8 @@ public class PopupWin : Popup {
 
         currentTime.text = "Time: " + GameController.instance.converSecondsToMin (newCurrentTime);
         bestTime.text = "Time: " + GameController.instance.converSecondsToMin (newBestTime);
-        TextLevel.text = "LEVEL " + (GameController.instance.currentLevel + 1);
+        TextLevel.text = "LEVEL " + (GameController.instance.currentLevel + 1); 
+        UM_AdManager.ShowInterstitialAd ();
         base.onShow ();
     }
 

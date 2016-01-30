@@ -41,6 +41,9 @@ public class GameController {
         return time;
     }
 
+    //id quang cao
+   public int adid = 0;
+
     /*==========================Start Json==========================*/
     //string path = "Assets/Resources/json_data.txt";
     string str_json = "";

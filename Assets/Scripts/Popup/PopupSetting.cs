@@ -8,7 +8,7 @@ public class PopupSetting : Popup {
     public Sprite Music_off, Music_on, Sound_on, Sound_off;
 
     // Use this for initialization
-    void Start () {
+    void OnEnable () {
         changeSprite ();
     }
 

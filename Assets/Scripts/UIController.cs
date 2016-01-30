@@ -34,9 +34,9 @@ public class UIController : MonoBehaviour {
             }
         }
 
-        if(!SoundController.instance.audio.isPlaying) {
-            SoundController.instance.PlaySoundMainMenu ();
-        }
+        //if(!SoundController.instance.audio.isPlaying && GameController.instance.isMusic == 1) {
+        //    SoundController.instance.PlaySoundMainMenu ();
+       // }
     }
 
     public void onClick_Play () {

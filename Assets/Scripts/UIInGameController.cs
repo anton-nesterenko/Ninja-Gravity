@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class UIInGameController : MonoBehaviour {
     public GameObject controlFreak;
@@ -19,6 +20,7 @@ public class UIInGameController : MonoBehaviour {
         InvokeRepeating ("setTimeInGame", 0, 1);
 
         SoundController.instance.PlaySoundInGame ();
+        UM_AdManager.HideBanner (GameController.instance.adid);
     }
 
     bool cf = false;
@@ -29,9 +31,9 @@ public class UIInGameController : MonoBehaviour {
             cf = false;
         }
 
-        if(!SoundController.instance.audio.isPlaying) {
-            SoundController.instance.PlaySoundInGame ();
-        }
+        //if(!SoundController.instance.audio.isPlaying && GameController.instance.isMusic == 1) {
+        //  SoundController.instance.PlaySoundInGame ();
+        //}
     }
 
     public void onClick_Pause () {

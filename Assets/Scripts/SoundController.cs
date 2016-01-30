@@ -35,20 +35,29 @@ public class SoundController : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         //if(!audio.isPlaying) {
-         //   PlaySoundMainMenu ();
-       // }
+        //   PlaySoundMainMenu ();
+        // }
     }
 
     public void PlaySoundMainMenu () {
         audio.Stop ();
         audio.loop = true;
-        audio.PlayOneShot (main_menu);
+        audio.clip = main_menu;
+        audio.Play ();
+        pauseSound ();
+        if(GameController.instance.isMusic == 1) unpauseSound ();
+        //audio.PlayOneShot (main_menu);
     }
 
     public void PlaySoundInGame () {
         audio.Stop ();
         audio.loop = true;
-        audio.PlayOneShot (in_game);
+        //audio.PlayOneShot (in_game);
+
+        audio.clip = in_game;
+        audio.Play ();
+        pauseSound ();
+        if(GameController.instance.isMusic == 1) unpauseSound ();
     }
 
     public void pauseSound () {
